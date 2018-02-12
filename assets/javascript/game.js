@@ -40,6 +40,7 @@
                 $('#win-count').text(winCount);
                 $('#guesses-left').text(playerGuessesRemaining);
                 $('#letters-guessed').text(theLettersGuessed);
+                $('#info-text').text("Press any key to get started!");
                 $('#word-display').text(toDisplay);
                 console.log( playerGuessesRemaining );
                 toDisplay = 'The Word is: ';                    
@@ -50,7 +51,6 @@
                  
                  document.onkeyup = function(event)
                  {
-
     
                     winCount = $('#win-count').text();
                     playerGuessesRemaining = $('#guesses-left').text();
@@ -109,6 +109,8 @@
                         if (playerCompletedWord)
                         {
                             winCount++;
+                            $('figcaption#gallows-caption').text("Victory!!!")
+                            $('#info-text').text("Press Enter to Continue!");
                             console.log( 'Player Won' );
                         }
                         else
@@ -119,8 +121,14 @@
                    if (!letterMatch && !playerCompletedWord && playerGuessesRemaining > 0)
                        playerGuessesRemaining--;
 
-                    // Reset to a new work if player guessed all of the words and then pressed Enter
-                    if ( (playerCompletedWord || playerGuessesRemaining == 0) && playerKeypress == '/' )
+                    if (playerGuessesRemaining == 0)
+                    {
+                        $('figcaption#gallows-caption').text("Defeat...")
+                        $('#info-text').text("Press Enter to Continue!");
+                    }
+
+                    // Reset to a new work if player guessed all of the words and then pressed Enter  
+                    if ( (playerCompletedWord || playerGuessesRemaining == 0) && event.keyCode == 13 ) // Keycode 13 is Enter
                     {
                         console.log( 'Game Reset')
                         // Reset everything (except number of wins)
@@ -137,7 +145,8 @@
                         theLettersGuessed = "";
                         // Reset all letters to un-choosen
                         for( i=0; i<choosenLetters.length; i++)
-                            choosenLetters[i]=false;                                                                               
+                            choosenLetters[i]=false;
+                        $('#info-text').text("Press any key to get started!");                                                                               
                     }
 
                     // Determine which Hangman image to display
