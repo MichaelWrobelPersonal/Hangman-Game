@@ -1,10 +1,10 @@
-                
+$(document).ready(function() {                
                 // Hangman Arrays
                 var theLetters = ['A','B','C','D','E',
                                   'F','G','H','I','J',
                                   'K','L','M','N','O',
                                   'P','Q','R','S','T',
-                                  'U','V','W','X','Y','Z'];
+                                  'U','V','W','X','Y','Z',' ' ];
                 var choosenLetters = [false,false,false,false,false,        // A-E
                                       false,false,false,false,false,        // F-J
                                       false,false,false,false,false,        // K-O
@@ -18,17 +18,12 @@
                                       "Head, Torso, Arms, and One Leg",
                                       "Head, Torso, Arms, and Legs",
                                       "Game Over" ];
-                theWord =    "HANGMAN";
-                toDisplay =  "_______";
-                displayArray = ['_','_','_','_','_','_','_'];
-                theLettersGuessed = "";                                      
+                var theWords = ["LUGE","BASKETBALL","SKING","ICE SKATING","DOWNHILL","GOLD MEDAL","KOREA", "OLYMPIC FLAME" ];
+                var theWord =    "";
+                var toDisplay =  "";
+                var displayArray = ['_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_'];
+                var theLettersGuessed = "";                                      
                  // ...
-//                var winCount = document.getElementById("#win-count");
-//                var guessesLeft = document.getElementById("#guesses-left");
-//                var lettersGuessed = document.getElementById("#letters-guessed");
-//                guessesLeft.textContent = "8";
-//                lettersGuessed.textContent = "";
-//                winCount.textContent = "0";
                 var winCount = 0;
                 var playerKeypress = "";
                 var playerGuessesRemaining = 8;
@@ -37,6 +32,14 @@
                 var hangImage = "hangman-001.png";
                 var hangImagePath = "assets/images/";
                 var i=0;
+                // Pick a word
+                var w= (Math.floor(Math.random()) * theWords.length);
+                console.log('index: ' + w);
+                theWord = theWords[w];
+                console.log(theWord);
+                for (i=0;i<theWords[w].length;i++)
+                    toDisplay += '_';
+                    
                 $('#win-count').text(winCount);
                 $('#guesses-left').text(playerGuessesRemaining);
                 $('#letters-guessed').text(theLettersGuessed);
@@ -74,7 +77,7 @@
                     // Mark off the letter if it was not choosen allready
                     for ( i=0;i<choosenLetters.length;i++)
                     {
-                        if ( playerGuess == theLetters[i] )
+                        if (( playerGuess == theLetters[i]) && playerGuessesRemaining >0)
                         {
                             // If player chose a letter they allready picked
                             if (choosenLetters[i] == true )
@@ -89,7 +92,7 @@
                     letterMatch = false;
                     for ( i=0;i<theWord.length;i++)
                     {
-                        if (playerGuess == theWord.charAt(i))
+                        if ((playerGuess == theWord.charAt(i)) && playerGuessesRemaining > 0 )
                         {
                             letterMatch = true;
                             displayArray[i] = playerGuess;
@@ -139,10 +142,15 @@
                         letterMatch = false;
                         playerCompletedWord = false;
                         i=0;
-                        theWord =    "HANGMAN";  // Change to a differant word
-                        toDisplay =  "_______"
-                        displayArray = ['_','_','_','_','_','_','_'];
-                        theLettersGuessed = "";
+                       // Pick another word
+                        var w= (Math.floor(Math.random()) * theWords.length);
+                        console.log('index: ' + w);
+                        theWord = theWords[w];
+                        console.log(theWord);
+                        for (i=0;i<theWords[w].length;i++)
+                            toDisplay += '_';
+                        displayArray = ['_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_'];
+                       theLettersGuessed = "";
                         // Reset all letters to un-choosen
                         for( i=0; i<choosenLetters.length; i++)
                             choosenLetters[i]=false;
@@ -183,10 +191,6 @@
                     $('#guesses-left').text(playerGuessesRemaining);
                     $('#letters-guessed').text(theLettersGuessed);
                     $('#word-display').text(toDisplay);
-
-//                    guessesLeft.textContent = playerGuessesRemaining;
-//                    lettersGuessed.textContent = theLettersGuessed;
-
                  };
                         
-  
+}); 
