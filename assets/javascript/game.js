@@ -10,7 +10,7 @@ $(document).ready(function() {
                                       false,false,false,false,false,        // K-O
                                       false,false,false,false,false,        // P-T
                                       false,false,false,false,false,false]; // U-Z
-                var hangingStatus = [ "Start of the Game",
+                var hangingStatus = [ "Game Start",
                                       "Head is Hanging",
                                       "Head and Torso",
                                       "Head, Torso, & One Arm",
@@ -18,50 +18,43 @@ $(document).ready(function() {
                                       "Head, Torso, Arms, and One Leg",
                                       "Head, Torso, Arms, and Legs",
                                       "Game Over" ];
-                var theWords = ["LUGE","BASKETBALL","SKING","ICE SKATING","DOWNHILL","GOLD MEDAL","KOREA", "OLYMPIC FLAME" ];
+                var theWords = ["ALPINE", "LUGE","BASKETBALL","SKING","SKATING","DOWNHILL","MEDAL","KOREA", "OLYMPIC" ];
+                // Hangman variables
                 var theWord =    "";
                 var toDisplay =  "";
                 var displayArray = ['_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_'];
                 var theLettersGuessed = "";                                      
                  // ...
                 var winCount = 0;
-                var playerKeypress = "";
-                var playerGuessesRemaining = 8;
-                var letterMatch = false;
-                var playerCompletedWord = false;
-                var hangImage = "hangman-001.png";
-                var hangImagePath = "assets/images/";
-                var i=0;
+
+                // Reset the Game;
+                gameReset(); 
+
                 // Pick a word
-                var w= (Math.floor(Math.random()) * theWords.length);
-                console.log('index: ' + w);
-                theWord = theWords[w];
-                console.log(theWord);
-                for (i=0;i<theWords[w].length;i++)
-                    toDisplay += '_';
-                    
+                theWord = pickAWord();
+
+                //Intialize display
+                $('#info-text').text("Press any key to go for gold!");
                 $('#win-count').text(winCount);
                 $('#guesses-left').text(playerGuessesRemaining);
                 $('#letters-guessed').text(theLettersGuessed);
-                $('#info-text').text("Press any key to get started!");
                 $('#word-display').text(toDisplay);
                 console.log( playerGuessesRemaining );
-                toDisplay = 'The Word is: ';                    
-                for( i=0; i< displayArray.length; i++)
+                toDisplay = '';                    
+                for( i=0; i< theWord.length; i++)
                     toDisplay += displayArray[i] + " ";
                 console.log( toDisplay );
                 $('#word-display').text(toDisplay);
                  
                  document.onkeyup = function(event)
-                 {
-    
+                 {   
                     winCount = $('#win-count').text();
                     playerGuessesRemaining = $('#guesses-left').text();
 
                     console.log( 'Key Pressed.......');
                     playerKeypress = event.key;
                     playerGuess = playerKeypress.toUpperCase();
-
+ 
                     // Insure remaining guesses is within bounds
                     if (playerGuessesRemaining > 8)
                         playerGuessesRemaining = 8;
@@ -70,24 +63,35 @@ $(document).ready(function() {
                     else if ( playerGuessesRemaining == NaN )
                         playerGuessesRemaining = 8;
 
+                    // Log some data
                     console.log( playerKeypress );
                     console.log( playerGuess );
                     console.log( 'Guesses Left: ' + playerGuessesRemaining );
+                    console.log( 'The Word: ' + theWord);
+                    console.log( toDisplay);
 
                     // Mark off the letter if it was not choosen allready
+                    var letterValid = false;
                     for ( i=0;i<choosenLetters.length;i++)
                     {
-                        if (( playerGuess == theLetters[i]) && playerGuessesRemaining >0)
+                        if (( playerGuess == theLetters[i])
+                        &&  (playerGuessesRemaining >0) && (!playerCompletedWord)) 
                         {
-                            // If player chose a letter they allready picked
+                            // If player chose a letter they already picked
                             if (choosenLetters[i] == true )
                                 return;  // Then exit without doing anything
                             // Otherwise mark it as a new choice
+                            letterValid=true;
                             choosenLetters[i] = true;
                             break;
                         }
                     }
+                    if (event.keyCode == 13)
+                        letterValid = true; // Enter is a vaildi choice
+                    if (!letterValid)
+                        return; // Exit without doing anything if letter choice was not valid (i.e 1-10 or special chars)
 
+                    
                     // See if the choosen letter matches a letter in the word.
                     letterMatch = false;
                     for ( i=0;i<theWord.length;i++)
@@ -98,13 +102,15 @@ $(document).ready(function() {
                             displayArray[i] = playerGuess;
                         }
                     }
+                    $('figcaption#gallows-caption').text("");   // Clear this out on a valid reponse                                                                           
+ 
 
                     // See if the player has completed the word
                     if (letterMatch && playerGuessesRemaining > 0)
                     {
                         playerCompletedWord = true;  // Assume so until determined otherwise
                         // Determine if there are any un-gueesed letters by presence of underscores
-                       for( i=0; i< displayArray.length; i++)
+                       for( i=0; i< theWord.length; i++)
                         {
                            if ( displayArray[i] == '_')
                               playerCompletedWord = false;
@@ -112,7 +118,7 @@ $(document).ready(function() {
                         if (playerCompletedWord)
                         {
                             winCount++;
-                            $('figcaption#gallows-caption').text("Victory!!!")
+                            $('figcaption#gallows-caption').text("Victory!!!");
                             $('#info-text').text("Press Enter to Continue!");
                             console.log( 'Player Won' );
                         }
@@ -127,34 +133,18 @@ $(document).ready(function() {
                     if (playerGuessesRemaining == 0)
                     {
                         $('figcaption#gallows-caption').text("Defeat...")
-                        $('#info-text').text("Press Enter to Continue!");
+                        $('#info-text').text("Press Enter to continue!");
                     }
 
                     // Reset to a new work if player guessed all of the words and then pressed Enter  
                     if ( (playerCompletedWord || playerGuessesRemaining == 0) && event.keyCode == 13 ) // Keycode 13 is Enter
                     {
-                        console.log( 'Game Reset')
-                        // Reset everything (except number of wins)
-                        playerKeypress = "";
-                        playerGuessesRemaining = 8;
-                        hangImage = "hangman-001.png";
-                        hangImagePath = "assets/images/";
-                        letterMatch = false;
-                        playerCompletedWord = false;
-                        i=0;
+                       // Reset the Game;
+                       gameReset(); 
                        // Pick another word
-                        var w= (Math.floor(Math.random()) * theWords.length);
-                        console.log('index: ' + w);
-                        theWord = theWords[w];
-                        console.log(theWord);
-                        for (i=0;i<theWords[w].length;i++)
-                            toDisplay += '_';
-                        displayArray = ['_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_'];
-                       theLettersGuessed = "";
-                        // Reset all letters to un-choosen
-                        for( i=0; i<choosenLetters.length; i++)
-                            choosenLetters[i]=false;
-                        $('#info-text').text("Press any key to get started!");                                                                               
+                       theWord = pickAWord();
+                       $('#info-text').text("Press any key to go for gold!");  
+                       $('figcaption#gallows-caption').text("");                                                                             
                     }
 
                     // Determine which Hangman image to display
@@ -165,8 +155,7 @@ $(document).ready(function() {
                     console.log('ImageFile: ' + hangImage);
                     $('img#gallows-image').attr('src', hangImagePath + hangImage );
                     $('img#gallows-image').attr('alt', hangingStatus[ (8-playerGuessesRemaining)]);
-                    $('figcaption#gallows-caption').text(hangingStatus[ (8-playerGuessesRemaining)]);
-                    
+                   
                     // Display what letters where guessed
                     theLettersGuessed = "";
                     for( i=choosenLetters.length-1; i>=0 ;i--)
@@ -181,8 +170,8 @@ $(document).ready(function() {
                     console.log( 'Wins: ' + winCount );
                     console.log( 'Guesses Left: ' + playerGuessesRemaining );
                     console.log( 'Letters Guessed: ' + theLettersGuessed);
-                    toDisplay = 'The Word is: ';                    
-                    for( i=0; i< displayArray.length; i++)
+                    toDisplay = '';                    
+                    for( i=0; i< theWord.length; i++)
                         toDisplay += displayArray[i] + " ";
                     console.log( toDisplay );
 
@@ -192,5 +181,33 @@ $(document).ready(function() {
                     $('#letters-guessed').text(theLettersGuessed);
                     $('#word-display').text(toDisplay);
                  };
+
+    function gameReset()
+    {
+        console.log( 'Game Reset')
+        // Reset everything (except number of wins)
+        playerKeypress = "";
+        playerGuessesRemaining = 8;
+        hangImage = "hangman-001.png";
+        hangImagePath = "assets/images/";
+        letterMatch = false;
+        playerCompletedWord = false;
+        i=0;
+        displayArray = ['_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_'];
+        theLettersGuessed = "";
+         // Reset all letters to un-choosen
+         for( i=0; i<choosenLetters.length; i++)
+             choosenLetters[i]=false;
+    }
+
+    function pickAWord( ) {
+        var randnum= Math.floor((Math.random()) * theWords.length + 1);
+        console.log('index: ' + randnum);
+        var selectedWord = theWords[randnum];
+        console.log(theWord);
+        for (i=0;i<theWords[randnum].length;i++)
+            toDisplay += '_';
+        return selectedWord;
+    }
                         
 }); 

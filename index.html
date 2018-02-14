@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta author="Mike Wrobel" description="Hangman">
-    <title>Hangman</title>
+    <meta author="Mike Wrobel" description="Olympic Hangman">
+    <title>Olympic Man</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Latest compiled and minified CSS -->
@@ -21,7 +21,7 @@
 </head>
 <body>
     <div class="container">
-  <!--      <header class="row"></header> -->
+        <header class="row"></header>
 	<main>
                 <div class="row">
                         <!-- Sidebar content -->
@@ -36,26 +36,29 @@
                                                 <br/>
                                         </div>
                                         <div id="label-letters-guessed" class="text-left">Letters Guessed:
+                                                <br/>
                                                 <span id="letters-guessed"> </span>
+                                                <br/>
                                                 <br/>
                                         </div>
                                         <small id="info-text" class="text-left">
-                                                Press any key to get started!
+                                                Press any key to go for the gold!
                                         </small>
                                 </div>
                         </div>
                         <!-- Body content -->
-                        <div class="span9 offset3 col-sm-9">
+                        <div class="span9 offset3 col-sm-9"  >
                                 <div class="hero-unit">
-                                        <figure>
-                                                <img id="gallows-image" src="assets/images/Hangman-001.png" alt="Start of the game."/>
-                                                <br />
-                                                <figcaption id="gallows-caption" class="text-center" >Start of the Game.
-                                                </figcaption>
+                                        <img id="olympic-rings" width='300' height='175'
+                                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Olympic_rings_with_transparent_rims.svg/2000px-Olympic_rings_with_transparent_rims.svg.png" />
+                                        <figure class="text-left">
+                                                <img id="gallows-image" src="assets/images/Hangman-001.png" alt="Game Start"/>
+                                                <figcaption id="gallows-caption" class="text-left" >Start of the Game.</figcaption>
                                         </figure>
-                                        <div id="label-word-display" class="text-center">
+                                        <div id="label-word-display" class="text-left"> 
                                                 <em>
-                                                <h1 id="word-display">The Word is: </h1>
+                                                     <h3>The Olympic Word Game</h3>
+                                                     <h1 id="word-display"></h1>
                                                 </em>
                                                 <br/>
                                         </div>
@@ -63,6 +66,6 @@
                         </div>
                 </div>
 	</main>
-<!--	<footer class="row"></footer> -->
+	<footer class="row"></footer>
     </div>
 </body>

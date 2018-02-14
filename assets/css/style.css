@@ -11,20 +11,21 @@ body {
         max-width: 960px;
         margin: 0 auto;
         clear: both;
-        background-image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Olympic_rings_with_transparent_rims.svg/2000px-Olympic_rings_with_transparent_rims.svg.png'    
 }
-h1, h2, h3, p { margin-bottom: 18px; }
-p:last-child { margin-bottom: 0; }
+        
 h1, h2, h3 { color: #4aaaa5;
        font-family: Georgia, Times, "Times New Roman", serif;
        font-weight: 700;
 }
+
 h1 {
     padding-bottom: 20px;
     font-size: 30px;
     line-height: 49px;
     border-bottom: 3px solid #dddddd;
 }
+
 h2, h3 { font-size: 20px; }
-h6 { font-size: 20px; font-weight: 700; color: #ffffff; text-align: center; line-height: 4px; }
+
+figcaption { font-size: 15px; font-weight: 700; color: #aaaaaa; line-height: 2px; padding: 0px; margin: 1px; }
 
