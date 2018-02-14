@@ -45,7 +45,11 @@ $(document).ready(function() {
                     toDisplay += displayArray[i] + " ";
                 console.log( toDisplay );
                 $('#word-display').text(toDisplay);
-                 
+                // To resolve a display glitch of the gallows on intial startup of published site.
+                $('img#gallows-image').attr('src', "assets/images/Hangman-001.png" );
+                $('img#gallows-image').attr('alt', "Game Start");
+
+                 // On Key Up Handler
                  document.onkeyup = function(event)
                  {   
                     winCount = $('#win-count').text();
