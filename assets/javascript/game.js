@@ -209,7 +209,7 @@ $(document).ready(function() {
         console.log('index: ' + randnum);
         var selectedWord = theWords[randnum];
         console.log(theWord);
-        for (i=0;i<theWords[randnum].length;i++)
+        for (i=0;i<selectedWord.length;i++)
             toDisplay += '_';
         return selectedWord;
     }
