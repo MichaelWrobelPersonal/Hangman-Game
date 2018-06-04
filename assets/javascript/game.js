@@ -74,6 +74,14 @@ $(document).ready(function() {
                     console.log( 'The Word: ' + theWord);
                     console.log( toDisplay);
 
+                    if (playerGuessesRemaining > 0)
+                    hangImage = "hangman-00" + (8-playerGuessesRemaining+1) + ".png";
+
+                    // Update the Hangman Image based on number of guesses remaining
+                    console.log('ImageFile: ' + hangImage);
+                    $('img#gallows-image').attr('src', hangImagePath + hangImage );
+                    $('img#gallows-image').attr('alt', hangingStatus[ (8-playerGuessesRemaining)]);
+
                     // Mark off the letter if it was not choosen allready
                     var letterValid = false;
                     for ( i=0;i<choosenLetters.length;i++)
