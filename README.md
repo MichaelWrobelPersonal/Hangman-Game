@@ -20,4 +20,5 @@ The project was put together during the 2018 Winter Olympics.  It was an obvious
 
 # Contributions
 
-This site is part of my personal portfolio and as such direct contributions to the project are not accepted at this time.  If you have any suggestions pleaae direct them to me via email (michaelrwrobel@sbcglobal.net).
+This site is the root of my personal portfolio and as such direct contributions to the project are not accepted at this time.  If you have any suggestions, please direct them to me via email (michaelrwrobel@sbcglobal.net).
+
